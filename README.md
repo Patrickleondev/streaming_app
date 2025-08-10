@@ -6,25 +6,25 @@ Cette application Flutter a été développée dans le cadre de la formation DCL
 
 ## Fonctionnalités
 
-### 🏠 Page Principale (Accueil)
+###  Page Principale (Accueil)
 - **AppBar** : Barre d'application avec couleur amber, bouton de recherche, titre "Vos émissions en streaming" et bouton de catégories
 - **Grille Réactive** : Affichage des émissions dans une grille responsive utilisant le package `responsive_grid`
 - **Navigation** : Barre de navigation en bas avec trois onglets (Accueil, Recherche, Profil)
 - **Filtrage par catégorie** : Possibilité de filtrer les émissions par catégorie
 - **Gestion des favoris** : Système de favoris intégré avec persistance locale
 
-### 🔍 Page de Recherche
+###  Page de Recherche
 - **Barre de recherche** : Recherche en temps réel dans les émissions
 - **Recherche multicritères** : Recherche par nom, chaîne radio, catégorie ou description
 - **Interface intuitive** : Affichage des résultats en temps réel
 - **Gestion des états vides** : Messages informatifs quand aucun résultat n'est trouvé
 
-### 👤 Page Profil
+### Page Profil
 - **Statistiques utilisateur** : Nombre de favoris, catégories disponibles, écoutes
 - **Mes favoris** : Affichage de toutes les émissions favorites
 - **Interface moderne** : Design épuré avec cartes et statistiques
 
-### 📺 Émissions de Streaming (IdentificationStreaming)
+###  Émissions de Streaming (IdentificationStreaming)
 
 Chaque émission affiche :
 - Une image de fond avec badge de catégorie
@@ -32,7 +32,7 @@ Chaque émission affiche :
 - Le nom de l'émission et la chaîne radio
 - Animation de transition vers la page de détails
 
-### 🎬 Page de Détails (AlbumStreaming)
+###  Page de Détails (AlbumStreaming)
 - **Animation Hero** : Transition fluide de l'image depuis la liste
 - **Informations détaillées** : Titre, chaîne radio, catégorie et description
 - **Liste des diffusions** : Affichage des diffusions avec dates et boutons de lecture
@@ -175,6 +175,15 @@ flutter:
 - Information
 - Actualité
 
+  <img width="623" height="1280" alt="image" src="https://github.com/user-attachments/assets/9dd82458-88f1-4d69-b4f1-ef56e58f8e97" />
+
+  <img width="623" height="1280" alt="image" src="https://github.com/user-attachments/assets/7938a064-255d-40f5-8bad-738d332fa625" />
+
+  <img width="623" height="1280" alt="image" src="https://github.com/user-attachments/assets/5319c89c-df29-4d0b-8256-407b4b40610d" />
+
+
+
+
 ## Test et Qualité
 
 ### Tests Unitaires
@@ -228,20 +237,7 @@ android {
 }
 ```
 
-## Support et Contribution
 
-### Signaler un bug
-Créez une issue sur GitHub avec :
-- Description détaillée du problème
-- Étapes pour reproduire
-- Captures d'écran si applicable
-- Informations sur l'environnement (OS, version Flutter, etc.)
-
-### Contribuer
-1. Fork le projet
-2. Créez une branche pour votre fonctionnalité
-3. Commitez vos changements
-4. Créez une Pull Request
 
 ## Licence
 
@@ -260,4 +256,3 @@ Développé par Patrick-léon dans le cadre de la formation DCLIC niveau avancé
 
 ---
 
-*Application créée avec ❤️ en utilisant Flutter*
