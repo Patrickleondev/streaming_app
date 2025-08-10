@@ -1,6 +1,158 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
+/// Widget pour afficher une image colorée selon la catégorie
+class CategoryImageWidget extends StatelessWidget {
+  final String category;
+  final String title;
+  final String subtitle;
+  final double? width;
+  final double? height;
+
+  const CategoryImageWidget({
+    super.key,
+    required this.category,
+    required this.title,
+    this.subtitle = '',
+    this.width,
+    this.height,
+  });
+
+  // Couleurs et icônes par catégorie
+  Map<String, Map<String, dynamic>> get categoryData => {
+    'culture': {
+      'colors': [const Color(0xFF8E24AA), const Color(0xFFBA68C8)],
+      'icon': Icons.library_books,
+    },
+    'lifestyle': {
+      'colors': [const Color(0xFFE91E63), const Color(0xFFF48FB1)],
+      'icon': Icons.style,
+    },
+    'investigation': {
+      'colors': [const Color(0xFF424242), const Color(0xFF757575)],
+      'icon': Icons.search,
+    },
+    'sport': {
+      'colors': [const Color(0xFF43A047), const Color(0xFF81C784)],
+      'icon': Icons.sports_soccer,
+    },
+    'information': {
+      'colors': [const Color(0xFF1E88E5), const Color(0xFF64B5F6)],
+      'icon': Icons.wb_cloudy,
+    },
+    'actualite': {
+      'colors': [const Color(0xFFFF5722), const Color(0xFFFF8A65)],
+      'icon': Icons.newspaper,
+    },
+    'technologie': {
+      'colors': [const Color(0xFF00ACC1), const Color(0xFF4DD0E1)],
+      'icon': Icons.computer,
+    },
+    'musique': {
+      'colors': [const Color(0xFFFF9800), const Color(0xFFFFCC02)],
+      'icon': Icons.music_note,
+    },
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    final data = categoryData[category.toLowerCase()] ?? {
+      'colors': [Colors.amber[300]!, Colors.amber[600]!],
+      'icon': Icons.radio,
+    };
+
+    final colors = data['colors'] as List<Color>;
+    final icon = data['icon'] as IconData;
+
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: colors,
+        ),
+      ),
+      child: Stack(
+        children: [
+          // Motif de fond
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.1,
+              child: Icon(
+                icon,
+                size: (width != null && width! > 200) ? 120 : 80,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          // Contenu principal
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  icon,
+                  size: (width != null && width! < 100) ? 30 : 48,
+                  color: Colors.white,
+                ),
+                if (title.isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: (width != null && width! < 100) ? 10 : 14,
+                        shadows: [
+                          Shadow(
+                            offset: const Offset(1, 1),
+                            blurRadius: 2,
+                            color: Colors.black.withOpacity(0.3),
+                          ),
+                        ],
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+                if (subtitle.isNotEmpty) ...[
+                  const SizedBox(height: 4),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text(
+                      subtitle,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.9),
+                        fontSize: (width != null && width! < 100) ? 8 : 12,
+                        shadows: [
+                          Shadow(
+                            offset: const Offset(1, 1),
+                            blurRadius: 2,
+                            color: Colors.black.withOpacity(0.2),
+                          ),
+                        ],
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 void main() {
   runApp(const MonApplication());
 }
@@ -62,57 +214,77 @@ class StreamingService {
   static final List<EmissionStreaming> _emissions = [
     EmissionStreaming(
       id: 'documentaires',
-      nom: 'Documentaires',
-      chaineRadio: 'Radio 4',
-      imageAsset: 'assets/images/parole_de_femme.jpg',
+      nom: 'Documentaires Culture',
+      chaineRadio: 'Radio Culture',
+      imageAsset: 'culture', // Pas de chemin - on utilisera des couleurs
       categorie: 'Culture',
-      description: 'Des documentaires captivants sur des sujets variés et enrichissants.',
-      diffusions: ['2023-9-28', '2023-8-15', '2023-7-22', '2023-6-10', '2023-5-05'],
+      description: 'Des documentaires captivants sur des sujets variés et enrichissants pour élargir vos horizons.',
+      diffusions: ['2024-1-15', '2024-1-10', '2024-1-05', '2023-12-28', '2023-12-20'],
+      isFavorite: true,
     ),
     EmissionStreaming(
       id: 'tendances_mode',
-      nom: 'Tendances Mode',
-      chaineRadio: 'Radio 3',
-      imageAsset: 'assets/images/image.webp',
+      nom: 'Tendances & Mode',
+      chaineRadio: 'Radio Lifestyle',
+      imageAsset: 'lifestyle',
       categorie: 'Lifestyle',
-      description: 'Suivez les dernières tendances de la mode et du style.',
-      diffusions: ['2023-9-25', '2023-8-20', '2023-7-18', '2023-6-12', '2023-5-08'],
+      description: 'Suivez les dernières tendances de la mode, beauté et style de vie contemporain.',
+      diffusions: ['2024-1-12', '2024-1-08', '2024-1-03', '2023-12-25', '2023-12-18'],
     ),
     EmissionStreaming(
       id: 'enquetes_criminelles',
       nom: 'Enquêtes Criminelles',
-      chaineRadio: 'Radio 2',
-      imageAsset: 'assets/images/image2.webp',
+      chaineRadio: 'Radio Investigation',
+      imageAsset: 'investigation',
       categorie: 'Investigation',
-      description: 'Plongez dans le monde fascinant des enquêtes policières.',
-      diffusions: ['2023-9-30', '2023-8-28', '2023-7-25', '2023-6-20', '2023-5-15'],
+      description: 'Plongez dans le monde fascinant des enquêtes policières et affaires criminelles.',
+      diffusions: ['2024-1-18', '2024-1-14', '2024-1-09', '2023-12-30', '2023-12-22'],
     ),
     EmissionStreaming(
       id: 'match_foot',
-      nom: 'Match de Foot',
-      chaineRadio: 'Radio 5',
-      imageAsset: 'assets/images/image3.webp',
+      nom: 'Football Live',
+      chaineRadio: 'Radio Sport+',
+      imageAsset: 'sport',
       categorie: 'Sport',
-      description: 'Vivez la passion du football avec nos commentaires en direct.',
-      diffusions: ['2023-9-27', '2023-8-25', '2023-7-20', '2023-6-15', '2023-5-12'],
+      description: 'Vivez la passion du football avec nos commentaires en direct et analyses d\'experts.',
+      diffusions: ['2024-1-20', '2024-1-16', '2024-1-11', '2024-1-06', '2023-12-28'],
+      isFavorite: true,
     ),
     EmissionStreaming(
       id: 'streaming_meteo',
-      nom: 'Streaming Météo',
-      chaineRadio: 'Radio 1',
-      imageAsset: 'assets/images/OIP.jpeg',
+      nom: 'Météo & Climat',
+      chaineRadio: 'Radio Info',
+      imageAsset: 'information',
       categorie: 'Information',
-      description: 'Toute la météo en temps réel avec nos experts climatologues.',
-      diffusions: ['2023-10-01', '2023-9-15', '2023-8-10', '2023-7-05', '2023-6-01'],
+      description: 'Toute la météo en temps réel avec nos experts climatologues et prévisions détaillées.',
+      diffusions: ['2024-1-22', '2024-1-19', '2024-1-15', '2024-1-10', '2024-1-05'],
     ),
     EmissionStreaming(
       id: 'que_des_news',
-      nom: 'Que des news',
-      chaineRadio: 'Radio 4',
-      imageAsset: 'assets/images/R.jpeg',
+      nom: 'Actualités Flash',
+      chaineRadio: 'Radio News 24/7',
+      imageAsset: 'actualite',
       categorie: 'Actualité',
-      description: 'L\'actualité décryptée par nos journalistes expérimentés.',
-      diffusions: ['2023-9-29', '2023-8-22', '2023-7-17', '2023-6-14', '2023-5-10'],
+      description: 'L\'actualité décryptée par nos journalistes expérimentés, analyses et débats.',
+      diffusions: ['2024-1-24', '2024-1-21', '2024-1-17', '2024-1-12', '2024-1-07'],
+    ),
+    EmissionStreaming(
+      id: 'tech_innovation',
+      nom: 'Tech & Innovation',
+      chaineRadio: 'Radio Future',
+      imageAsset: 'technologie',
+      categorie: 'Technologie',
+      description: 'Découvrez les dernières innovations technologiques et tendances numériques.',
+      diffusions: ['2024-1-25', '2024-1-22', '2024-1-18', '2024-1-13', '2024-1-08'],
+    ),
+    EmissionStreaming(
+      id: 'musique_live',
+      nom: 'Sessions Live',
+      chaineRadio: 'Radio Music',
+      imageAsset: 'musique',
+      categorie: 'Musique',
+      description: 'Concerts en direct, interviews d\'artistes et découvertes musicales exclusives.',
+      diffusions: ['2024-1-26', '2024-1-23', '2024-1-19', '2024-1-14', '2024-1-09'],
     ),
   ];
 
@@ -628,14 +800,33 @@ class partieGrilleImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (emissions.isEmpty) {
+      return const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.radio, size: 64, color: Colors.grey),
+            SizedBox(height: 16),
+            Text(
+              'Aucune émission disponible',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          ],
+        ),
+      );
+    }
+
     return ResponsiveGridList(
-      desiredItemWidth: 160,
-      minSpacing: 12,
-      children: emissions.map((emission) => IdentificationStreaming(
-        emission: emission,
-        onFavoriteToggle: () {
-          StreamingService.toggleFavorite(emission.id);
-        },
+      desiredItemWidth: 180,
+      minSpacing: 16,
+      children: emissions.map((emission) => Container(
+        height: 250, // Hauteur fixe pour éviter les erreurs de layout
+        child: IdentificationStreaming(
+          emission: emission,
+          onFavoriteToggle: () {
+            StreamingService.toggleFavorite(emission.id);
+          },
+        ),
       )).toList(),
     );
   }
@@ -680,42 +871,51 @@ class _IdentificationStreamingState extends State<IdentificationStreaming> {
           color: Colors.transparent,
           child: InkWell(
             borderRadius: BorderRadius.circular(12.0),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
                   builder: (context) => AlbumStreaming(emission: widget.emission),
-                ),
-              );
-            },
-            child: Column(
+              ),
+            );
+          },
+          child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
+            children: [
                 // Image de l'émission avec Hero animation
-                Expanded(
-                  flex: 3,
+              Expanded(
+                flex: 3,
                   child: Stack(
                     children: [
                       Hero(
                         tag: widget.emission.id,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(widget.emission.imageAsset),
-                              fit: BoxFit.cover,
-                            ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                            color: Colors.grey[300],
                           ),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.transparent,
-                                  Colors.black.withOpacity(0.1),
-                                ],
+                          child: Stack(
+                            fit: StackFit.expand,
+                                                        children: [
+                              // Image colorée selon la catégorie
+                              CategoryImageWidget(
+                                category: widget.emission.imageAsset,
+                                title: widget.emission.nom,
+                                subtitle: widget.emission.chaineRadio,
                               ),
-                            ),
+                              // Gradient overlay
+                              Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Colors.transparent,
+                                      Colors.black.withOpacity(0.1),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -786,43 +986,43 @@ class _IdentificationStreamingState extends State<IdentificationStreaming> {
                   ),
                 ),
                 // Informations de l'émission
-                Expanded(
-                  flex: 1,
-                  child: Container(
+              Expanded(
+                flex: 1,
+                child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12.0,
                       vertical: 8.0,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
                           widget.emission.nom,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
                             fontSize: 13,
                             color: Colors.black87,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                         const SizedBox(height: 2),
-                        Text(
+                      Text(
                           widget.emission.chaineRadio,
-                          style: TextStyle(
-                            color: Colors.grey[600],
+                        style: TextStyle(
+                          color: Colors.grey[600],
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
-                      ],
-                    ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
+            ],
             ),
           ),
         ),
@@ -859,11 +1059,13 @@ class _AlbumStreamingState extends State<AlbumStreaming> {
                   child: Container(
                     width: double.infinity,
                     height: double.infinity,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(widget.emission.imageAsset),
-                        fit: BoxFit.cover,
-                      ),
+                    color: Colors.grey[300],
+                                        child: CategoryImageWidget(
+                      category: widget.emission.imageAsset,
+                      title: widget.emission.nom,
+                      subtitle: widget.emission.chaineRadio,
+                      width: double.infinity,
+                      height: double.infinity,
                     ),
                   ),
                 ),
@@ -983,14 +1185,14 @@ class _AlbumStreamingState extends State<AlbumStreaming> {
                     // Description
                     Padding(
                       padding: const EdgeInsets.all(24.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
                             'À propos',
-                            style: TextStyle(
+                    style: TextStyle(
                               fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.bold,
                               color: Colors.black87,
                             ),
                           ),
@@ -1029,10 +1231,10 @@ class _AlbumStreamingState extends State<AlbumStreaming> {
                               entry.value,
                             ),
                           ),
-                        ],
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
+                ],
                 ),
               ),
             ),
@@ -1060,13 +1262,13 @@ class _AlbumStreamingState extends State<AlbumStreaming> {
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
-            decoration: BoxDecoration(
+      decoration: BoxDecoration(
               color: Colors.grey[50],
               borderRadius: BorderRadius.circular(10.0),
               border: Border.all(color: Colors.grey[200]!, width: 1),
-            ),
-            child: Row(
-              children: [
+      ),
+      child: Row(
+        children: [
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
@@ -1102,11 +1304,11 @@ class _AlbumStreamingState extends State<AlbumStreaming> {
                     ],
                   ),
                 ),
-                Icon(
-                  Icons.volume_up,
-                  color: Colors.purple[600],
-                  size: 20,
-                ),
+          Icon(
+            Icons.volume_up,
+            color: Colors.purple[600],
+            size: 20,
+          ),
               ],
             ),
           ),
